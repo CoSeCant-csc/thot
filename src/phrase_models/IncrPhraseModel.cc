@@ -33,68 +33,38 @@ along with this program; If not, see <http://www.gnu.org/licenses/>.
 //--------------- Function definitions
 
 //-------------------------
+//-------------------------
+// NOTE: Old code for printing translation table using PhraseTable class.
+
 void IncrPhraseModel::printTTable(FILE* file)
 {
-  StlPhraseTable* ptPtr=0;
+  PhraseTable* ptPtr=0;
 
-  ptPtr=dynamic_cast<StlPhraseTable*>(basePhraseTablePtr);
+  ptPtr=dynamic_cast<PhraseTable*>(basePhraseTablePtr);
 
   if(ptPtr) // C++ RTTI
   {
-    StlPhraseTable::TrgPhraseInfo::const_iterator phraseTIter;
+    PhraseTable::const_iterator phraseTIter;
       
-    for(phraseTIter=ptPtr->beginTrg();phraseTIter!=ptPtr->endTrg();++phraseTIter)
+    for(phraseTIter=ptPtr->begin();phraseTIter!=ptPtr->end();++phraseTIter)
     {
-      StlPhraseTable::SrcTableNode srctn;
-      StlPhraseTable::SrcTableNode::iterator srctnIter;
-      ptPtr->getEntriesForTarget(phraseTIter->first,srctn);
+       PhraseTable::SrcTableNode srctn;
+       PhraseTable::SrcTableNode::iterator srctnIter;
+       ptPtr->getEntriesForTarget(phraseTIter->first,srctn);
 
-      for(srctnIter=srctn.begin();srctnIter!=srctn.end();++srctnIter)
-      {
-        std::vector<WordIndex>::const_iterator vectorWordIndexIter;
-        for(vectorWordIndexIter=srctnIter->first.begin();vectorWordIndexIter!=srctnIter->first.end();++vectorWordIndexIter)
-          fprintf(file,"%s ",wordIndexToSrcString(*vectorWordIndexIter).c_str());
-        fprintf(file,"|||"); 
-        for(vectorWordIndexIter=phraseTIter->first.begin();vectorWordIndexIter!=phraseTIter->first.end();++vectorWordIndexIter)
-          fprintf(file," %s",wordIndexToTrgString(*vectorWordIndexIter).c_str());
-        fprintf(file," ||| %.8f %.8f\n",(float)srctnIter->second.first.get_c_s(),(float)srctnIter->second.second.get_c_st());
-      }
-    }
-  }
+       for(srctnIter=srctn.begin();srctnIter!=srctn.end();++srctnIter)
+       {
+         std::vector<WordIndex>::const_iterator vectorWordIndexIter;
+         for(vectorWordIndexIter=srctnIter->first.begin();vectorWordIndexIter!=srctnIter->first.end();++vectorWordIndexIter)
+           fprintf(file,"%s ",wordIndexToSrcString(*vectorWordIndexIter).c_str());
+         fprintf(file,"|||"); 
+         for(vectorWordIndexIter=phraseTIter->first.begin();vectorWordIndexIter!=phraseTIter->first.end();++vectorWordIndexIter)
+           fprintf(file," %s",wordIndexToTrgString(*vectorWordIndexIter).c_str());
+         fprintf(file," ||| %.8f %.8f\n",(float)srctnIter->second.first.get_c_s(),(float)srctnIter->second.second.get_c_st());
+       }
+     }
+   }
 }
-
-//-------------------------
-// NOTE: Old code for printing translation table using PhraseTable class.
-// 
-// void IncrPhraseModel::printTTable(FILE* file)
-// {
-//   PhraseTable* ptPtr=0;
-
-//   ptPtr=dynamic_cast<PhraseTable*>(basePhraseTablePtr);
-
-//   if(ptPtr) // C++ RTTI
-//   {
-//     PhraseTable::const_iterator phraseTIter;
-      
-//     for(phraseTIter=ptPtr->begin();phraseTIter!=ptPtr->end();++phraseTIter)
-//     {
-//       PhraseTable::SrcTableNode srctn;
-//       PhraseTable::SrcTableNode::iterator srctnIter;
-//       ptPtr->getEntriesForTarget(phraseTIter->first,srctn);
-
-//       for(srctnIter=srctn.begin();srctnIter!=srctn.end();++srctnIter)
-//       {
-//         std::vector<WordIndex>::const_iterator vectorWordIndexIter;
-//         for(vectorWordIndexIter=srctnIter->first.begin();vectorWordIndexIter!=srctnIter->first.end();++vectorWordIndexIter)
-//           fprintf(file,"%s ",wordIndexToSrcString(*vectorWordIndexIter).c_str());
-//         fprintf(file,"|||"); 
-//         for(vectorWordIndexIter=phraseTIter->first.begin();vectorWordIndexIter!=phraseTIter->first.end();++vectorWordIndexIter)
-//           fprintf(file," %s",wordIndexToTrgString(*vectorWordIndexIter).c_str());
-//         fprintf(file," ||| %.8f %.8f\n",(float)srctnIter->second.first.get_c_s(),(float)srctnIter->second.second.get_c_st());
-//       }
-//     }
-//   }
-// }
 
 //-------------------------
 IncrPhraseModel::~IncrPhraseModel()

@@ -37,7 +37,7 @@ along with this program; If not, see <http://www.gnu.org/licenses/>.
 #  include <thot_config.h>
 #endif /* HAVE_CONFIG_H */
 
-#include "StlPhraseTable.h"
+#include "PhraseTable.h"
 #include "_incrPhraseModel.h"
 
 //--------------- Constants ------------------------------------------
@@ -61,7 +61,7 @@ class IncrPhraseModel: public _incrPhraseModel
         // Constructor
     IncrPhraseModel(void):_incrPhraseModel()
       {
-        basePhraseTablePtr = new StlPhraseTable;
+        basePhraseTablePtr = new PhraseTable;
       }
 
         // Destructor
